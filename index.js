@@ -29,6 +29,7 @@ async function run() {
 
     const usersCollection = client.db("CollegeBooking").collection("users");
     const collegeCollection = client.db("CollegeBooking").collection("collegeData");
+    const admissionCollection = client.db("CollegeBooking").collection("admission");
 
     //UserData
     app.post('/users',async (req, res) => {
@@ -57,6 +58,18 @@ async function run() {
       res.send(result);
   })
 
+  //admission
+  app.post('/admission', async (req, res) => {
+    const admission = req.body;
+    console.log(admission);
+    const result = await admissionCollection.insertOne(admission);
+    res.send(result);
+  });
+
+  app.get('/admission',async (req,res)=>{
+    const result = await admissionCollection.find().toArray();
+    res.send(result);
+  })
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
